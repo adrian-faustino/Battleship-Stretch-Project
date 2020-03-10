@@ -28,6 +28,9 @@
   border: 1px solid green;
 }
 .tile.active {
+  background: green;
+}
+.tile.hit {
   background: red;
 }
 

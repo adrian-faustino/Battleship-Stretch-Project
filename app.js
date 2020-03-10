@@ -3,15 +3,12 @@ const board_div = document.querySelector('.board');
 const start_div = document.querySelector('.start-game');
 
 start_div.addEventListener('click', () => {
-  if (!isOn) {
+  if (!isOn && !setMode) {
     init();
-    eventListener = 
     isOn = true;
     setMode = true;
-  }
-
-  if (setMode) {
-    removeEventListener()
+  } else if (isOn && setMode) {
+    setMode = false;
   }
 });
 
@@ -26,7 +23,8 @@ const board_coord = [];                 //
 let isOn = false;                       //
 let setMode = false;                    //
 let coordObject;                        //
-let eventListener;
+let currentCoord;
+let occupied = {};
 //======================================//
 
 
@@ -55,8 +53,20 @@ const addEventListeners = function() {
     for (let column = 0; column < maxColumns; column++) {
       let currentDiv = board_coord[row][column];
       currentDiv.addEventListener('click', () => {
-        currentDiv.classList.toggle('active');
+        console.log('set mode', setMode);
+        console.log('isOn', isOn);
+        //set mode
+        if (setMode) {
+          setActive(currentDiv, logCoord(row, column));
+        }
+
+        if (!setMode && isOn) {
+          checkTile(currentDiv, logCoord(row, column));
+        }
+
+        // currentDiv.classList.toggle('active');
         console.log(logCoord(row, column));
+        currentCoord = logCoord(row, column);
       });
     }
   }
@@ -100,10 +110,29 @@ const generateKeyValPair = function(rows) {
   return result;
 };
 
-const setActive = function(div) {};
+//turns tiles green in set mode
+const setActive = function(div, arr) {
+  console.log('set active!');
+  div.classList.add('active');
+  occupied[toKey(arr)] = 1;
+  console.log(occupied);
+};
 
 const init = function() {
   generateBoard();
-  // addEventListeners();
+  addEventListeners();
   // coordObject = generateKeyValPair(maxRows);
+};
+
+const toKey = function(arr) {
+  return arr[0] + arr[1];
+};
+
+const checkTile = function(div, arr) {
+  const currentKey = toKey(arr);
+  if (occupied[currentKey] === 1) {
+    console.log('hit!');
+    div.classList.add('hit');
+  }
+
 };

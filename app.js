@@ -1,14 +1,17 @@
 //DOM cache
 const board_div = document.querySelector('.board');
 const start_div = document.querySelector('.start-game');
+const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   if (!isOn && !setMode) {
     init();
     isOn = true;
     setMode = true;
+    gameStatus_span.innerHTML = 'Set Ships';
   } else if (isOn && setMode) {
     setMode = false;
+    gameStatus_span.innerHTML = 'Start!';
   }
 });
 

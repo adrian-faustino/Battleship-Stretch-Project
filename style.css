@@ -28,7 +28,7 @@
   border: 1px solid green;
 }
 .tile.active {
-  background: green;
+  background: grey;
 }
 .tile.hit {
   background: red;
@@ -37,11 +37,12 @@
 /* start-game button */
 .start-game {
   position: fixed;
-  top: 30px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
-  height: 50px;
-  width: 100px;
+  height: 40px;
+  width: auto;
+  padding: 5px;
   background: salmon;
   border-radius: 5px;
   transition: all 0.6s;
@@ -53,6 +54,8 @@
 .start-game:hover {
   background: red;
 }
-.start-game-button {
-  height: 50px
+#start-game-span {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
 }

@@ -30,6 +30,9 @@
 .tile.active {
   background: grey;
 }
+.tile.active.hidden {
+  background: black;
+}
 .tile.hit {
   background: red;
 }

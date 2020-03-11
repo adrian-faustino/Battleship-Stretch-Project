@@ -12,6 +12,7 @@ start_div.addEventListener('click', () => {
   } else if (isOn && setMode) {
     setMode = false;
     gameStatus_span.innerHTML = 'Start!';
+    hideBoard();
   }
 });
 
@@ -75,6 +76,14 @@ const addEventListeners = function() {
   }
 };
 
+const hideBoard = function() {
+  const activeTiles = document.getElementsByClassName('active');
+  console.log(activeTiles, '--> Active tiles');
+  for (let div of activeTiles) {
+    div.classList.add('hidden');
+  }
+};
+
 //function returns obj array with co-ordinates
 const resetBoard = function() {
 
@@ -132,10 +141,11 @@ const toKey = function(arr) {
 };
 
 const checkTile = function(div, arr) {
+  console.log('...checking tile');
   const currentKey = toKey(arr);
   if (occupied[currentKey] === 1) {
     console.log('hit!');
+    div.classList.remove('hidden');
     div.classList.add('hit');
   }
-
 };

@@ -19,6 +19,7 @@
 .board {
   background: black;
   position: relative;
+  margin-top: 60px;
 }
 .tile {
   --tileSize: 0;
@@ -36,11 +37,26 @@
 .tile.hit {
   background: red;
 }
+.hit::after,
+.hit::before {
+  position: absolute;
+  bottom: -23%;
+  left: 45%;
+  content: '';
+  height: 32px;
+  width: 3px;
+  background-color: darkred;
+}
+.hit::before {
+  transform: rotate(-45deg);
+}
+.hit::after {
+  transform: rotate(45deg);
+}
 
 /* start-game button */
 .start-game {
-  position: fixed;
-  top: 50px;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
   height: 40px;

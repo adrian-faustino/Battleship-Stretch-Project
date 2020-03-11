@@ -1,0 +1,49 @@
+As soon as game starts -> gen new board, split screen? 
+
+
+//Start game
+-generate board (setTimout animation)
+-at this point there should be my board vs opp board? array like myCoord = {a1 : 0, a2 : 0...z9: 0}
+opCoord = {a1: 0, a2: 0....z1: 0} 
+0 -> no boat (since we are just generating board.. maybe use obj constructor?)
+
+
+//SET MODE
+-drag n drop onto board
+-at this point there should be a myCoord with 1s... {c1: 1, d1: 1, e1: 1, f1: 1}
+1 -> boat is present
+
+
+//PLAY MODE
+-hide own board? change opacity with --var
+-> have 2 boards, on the other board, send the oppCoord {} with the 1s to the other side with hidden properties
+-TURN counter variable, 0 and 1s?
+
+
+Player vs AI MODE
+-myCoord {} with OPACITY properties board on the left
+-oppCoord {} with HIDDEN properties board on right
+
+
+Game flow: FUNCTIONS NEEDED [USING: variables..]
+1. click new game
+generateBoard();
+-loops through [USING: maxRows, maxColumns]
+-return 2D Div array 
+-set this function to a varialbe to access DIVS (use for adding event listeners)
+
+2. player drag n drops ships
+
+3. press start game
+  3.1 1 vs AI mode?
+    -hideBoard
+
+
+#. not sure where to use yet/ helper FUNCTIONS
+addListener(listenerStr, callback)
+-takes string e.g. 'click' for onclick listener
+-callback function e.g. () => console.log('hi')
+-(set this to a variable so we can remove later?)
+
+removeListener(varName)
+-take the var name and remove it. (TEST THIS)

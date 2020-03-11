@@ -17,8 +17,8 @@ start_div.addEventListener('click', () => {
 });
 
 //infomration needed to draw board;=====//
-const tileSize = 25;                    //
-const maxRows = 20;                     //
+const tileSize = 45;                    //
+const maxRows = 15;                     //
 const maxColumns = maxRows;             //
 const board_coord = [];                 //
 //======================================//
@@ -27,10 +27,25 @@ const board_coord = [];                 //
 let isOn = false;                       //
 let setMode = false;                    //
 let coordObject;                        //
-let currentCoord;
-let occupied = {};
+let currentCoord;                       //
+let occupied = {};                      //
 //======================================//
 
+//opponent board========================// feed an array
+const AIships = [{
+  a1: 1,
+  b1: 1,
+  c1: 1,
+  d1: 1
+}, {
+  a2: 1,
+  b2: 1,
+  c2: 1
+}, {
+  a3: 1,
+  a4: 1,
+  a5: 1
+}];
 
 //generate board
 const generateBoard = function() {
@@ -57,19 +72,25 @@ const addEventListeners = function() {
     for (let column = 0; column < maxColumns; column++) {
       let currentDiv = board_coord[row][column];
       currentDiv.addEventListener('click', () => {
-        console.log('set mode', setMode);
-        console.log('isOn', isOn);
+        // console.log('set mode', setMode);
+        // console.log('isOn', isOn);
+
         //set mode
         if (setMode) {
           setActive(currentDiv, logCoord(row, column));
         }
 
+        //game mode
         if (!setMode && isOn) {
-          checkTile(currentDiv, logCoord(row, column));
+          // checkTile(currentDiv, logCoord(row, column)); uncomment for ai -> player turn
+          const check = checkTile2(AIships, toKey(logCoord(row, column)));
+          if (check) {
+            hit(currentDiv);
+          }
         }
 
         // currentDiv.classList.toggle('active');
-        console.log(logCoord(row, column));
+        // console.log(logCoord(row, column));
         currentCoord = logCoord(row, column);
       });
     }
@@ -149,3 +170,24 @@ const checkTile = function(div, arr) {
     div.classList.add('hit');
   }
 };
+
+
+//if HIT
+
+const checkTile2 = function(occupiedObjArr, key) {
+  for (let obj of occupiedObjArr) {
+    if (obj[key] === 1) {
+      console.log(key)
+      console.log('HIT!!!');
+      return true;
+    }
+  }
+  return false;
+};
+
+const hit = function(div) {
+  div.classList.remove('hidden');
+  div.classList.add('hit');
+};
+
+

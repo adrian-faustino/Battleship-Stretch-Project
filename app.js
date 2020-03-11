@@ -1,5 +1,6 @@
 //DOM cache
-const board_div = document.querySelector('.board');
+const boardPlayer1_div = document.querySelector('.board.player1');
+const boardPlayer2_div = document.querySelector('.board.player2');
 const start_div = document.querySelector('.start-game');
 const gameStatus_span = document.getElementById('start-game-span');
 
@@ -13,14 +14,16 @@ start_div.addEventListener('click', () => {
     setMode = false;
     gameStatus_span.innerHTML = 'Start!';
     hideBoard();
+    addEventListeners(PLAYER2_BOARD);
   }
 });
 
 //infomration needed to draw board;=====//
-const tileSize = 45;                    //
+const tileSize = 35;                    //
 const maxRows = 15;                     //
 const maxColumns = maxRows;             //
-const board_coord = [];                 //
+const PLAYER1_BOARD = [];               //
+const PLAYER2_BOARD = [];
 //======================================//
 
 //game state============================//
@@ -29,6 +32,7 @@ let setMode = false;                    //
 let coordObject;                        //
 let currentCoord;                       //
 let occupied = {};                      //
+let turn = 'player';
 //======================================//
 
 //opponent board========================// feed an array
@@ -48,29 +52,29 @@ const AIships = [{
 }];
 
 //generate board
-const generateBoard = function() {
+const generateBoard = function(parent, arr) {
   const boardHeight = tileSize * maxColumns;
   const boardWidth = tileSize * maxRows;
-  board_div.style.cssText = `height: ${boardHeight + 'px'}; width: ${boardWidth + 'px'};`;
+  parent.style.cssText = `height: ${boardHeight + 'px'}; width: ${boardWidth + 'px'};`;
   
   for (let row = 0; row < maxRows; row++) {
-    board_coord[row] = [];
+    arr[row] = [];
     for (let column = 0; column < maxColumns; column++) {
-      board_coord[row][column] = document.createElement('div');
-      board_coord[row][column].classList.add('tile');
-      board_div.appendChild(board_coord[row][column]);
+      arr[row][column] = document.createElement('div');
+      arr[row][column].classList.add('tile');
+      parent.appendChild(arr[row][column]);
       
-      board_coord[row][column].style.setProperty('--tileSize', tileSize + 'px');
-      board_coord[row][column].style.left = (tileSize * column) + 'px';
-      board_coord[row][column].style.top = (tileSize * row) + 'px';
+      arr[row][column].style.setProperty('--tileSize', tileSize + 'px');
+      arr[row][column].style.left = (tileSize * column) + 'px';
+      arr[row][column].style.top = (tileSize * row) + 'px';
     }
   }
 };
 
-const addEventListeners = function() {
+const addEventListeners = function(arr) {
   for (let row = 0; row < maxRows; row++) {
     for (let column = 0; column < maxColumns; column++) {
-      let currentDiv = board_coord[row][column];
+      let currentDiv = arr[row][column];
       currentDiv.addEventListener('click', () => {
         // console.log('set mode', setMode);
         // console.log('isOn', isOn);
@@ -79,16 +83,15 @@ const addEventListeners = function() {
         if (setMode) {
           setActive(currentDiv, logCoord(row, column));
         }
-
+        
         //game mode
         if (!setMode && isOn) {
-          // checkTile(currentDiv, logCoord(row, column)); uncomment for ai -> player turn
+          // checkTile(currentDiv, logCoord(row, column)); // uncomment for ai -> player turn
           const check = checkTile2(AIships, toKey(logCoord(row, column)));
           if (check) {
             hit(currentDiv);
           }
         }
-
         // currentDiv.classList.toggle('active');
         // console.log(logCoord(row, column));
         currentCoord = logCoord(row, column);
@@ -152,8 +155,10 @@ const setActive = function(div, arr) {
 };
 
 const init = function() {
-  generateBoard();
-  addEventListeners();
+  generateBoard(boardPlayer1_div, PLAYER1_BOARD);
+  generateBoard(boardPlayer2_div, PLAYER2_BOARD);
+  addEventListeners(PLAYER1_BOARD);
+  // addEventListeners(PLAYER2_BOARD);
   // coordObject = generateKeyValPair(maxRows);
 };
 
@@ -173,7 +178,6 @@ const checkTile = function(div, arr) {
 
 
 //if HIT
-
 const checkTile2 = function(occupiedObjArr, key) {
   for (let obj of occupiedObjArr) {
     if (obj[key] === 1) {
@@ -191,3 +195,7 @@ const hit = function(div) {
 };
 
 
+//helper functions
+function randomNumber(min, max) { //inclusive
+  return Math.floor(Math.random() * ((max + 1) - min)) + min;
+}

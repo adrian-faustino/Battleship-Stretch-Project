@@ -11,6 +11,9 @@
   margin: 0 auto;
   background: linear-gradient(black, grey, white);
   display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
@@ -20,6 +23,7 @@
   background: black;
   position: relative;
   margin-top: 60px;
+  margin: 0 auto;
 }
 .tile {
   --tileSize: 0;
@@ -27,12 +31,17 @@
   height: var(--tileSize);
   width: var(--tileSize);
   border: 1px solid green;
+  transition: all 0.2s;
+}
+.tile:hover {
+  background: pink;
 }
 .tile.active {
   background: grey;
 }
 .tile.active.hidden {
-  background: black;
+  background: grey;
+  opacity: 0.6;
 }
 .tile.hit {
   background: red;
@@ -58,9 +67,9 @@
 .start-game {
   position: relative;
   left: 50%;
-  transform: translateX(-50%);
   height: 40px;
   width: auto;
+  margin: 0 auto;
   padding: 5px;
   background: salmon;
   border-radius: 5px;

@@ -50,5 +50,35 @@ removeListener(varName)
 
 
 KNOWN PROBLEMS:
--ai keeps attacking same box
--ai hitting even on non active tile
+-ai keeps attacking same box [SOLVED]
+-ai hitting even on non active tile [SOLVED]
+-ai 'hit' but didn't change any tiles? [SOLVED]
+-ai copies  my move (because we are basing hitIndex based on current ile) THHE ISSUE IS THE INDEX FOR RECOLORING IS WRONG [SOLVED]
+
+-player can attack on own board during game mode
+
+
+
+KNOWN WORKS:
+-how my occupied array is made during set mode.
+
+
+
+next tasks:
+generate ai ships [CURRENT TASK];
+drag and drop
+way to detect if all ships are sunk (just use Object.values to see if there are any 1s every turn?..);
+
+
+//GENERATE AI SHIPS tasks [FUNCTIONS]
+--> We just need to make AIships {}. That's all.
+
+-generateKeyValPair(rows), takes number of rows for your object (up to 26), returns {a...z[1]: 0...n};
+--> assign this function to a var name so we can access is like the object 'occupied' to store AI boats
+[THIS CREATES THE OBJECT] --> set this variable AIships
+
+-randomBoat(num), takes a number for the length of ship. Returns 
+--> use randomNumber to generate start point?
+
+-logCoord(row, column), takes 2 numbers, a row and a column, and CONVERTS it to [a, 1].. use this on toKey() to convert it into a key like a1, a2....
+toKey([THIS CREATES CURRENT row,column TO KEY])

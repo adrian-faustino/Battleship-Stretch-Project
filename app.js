@@ -7,7 +7,7 @@ const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   //sandbox below
-  missIndex(9);
+  randomHorizontalBoat(5);
 
   //sandbox above
   if (!isOn && !setMode) {
@@ -20,6 +20,7 @@ start_div.addEventListener('click', () => {
     gameStatus_span.innerHTML = 'Start!';
     hideBoard();
     addEventListeners(PLAYER2_BOARD);
+    
   }
 });
 
@@ -28,7 +29,7 @@ const tileSize = 35;                    //
 const maxRows = 10;                     //
 const maxColumns = maxRows;             //
 const PLAYER1_BOARD = [];               //
-const PLAYER2_BOARD = [];
+const PLAYER2_BOARD = [];               //
 //======================================//
 
 //game state============================//
@@ -44,6 +45,21 @@ let turn = 'player';                    //
 const AIships = {
   a1: 1,
   a2: 1,
+  a3: 1,
+  a4: 1,
+  e5: 1,
+  f5: 1,
+  g5: 1,
+  h5: 1,
+  d1: 1,
+  d2: 1,
+  d3: 1,
+  d4: 1,
+  b8: 1,
+  c8: 1,
+  d8: 1,
+  e8: 1,
+  f8: 1
 };
 
 //generate board
@@ -95,30 +111,6 @@ const addEventListeners = function(arr) {
             aiTurn();
             toggleClickableBoard();
           }, 2000);
-          
-          // if (turn === 'player') { //during player's turn
-          //   // checkTile(currentDiv, logCoord(row, column)); // uncomment for ai -> player turn
-          //   const check = checkTile2(AIships, toKey(logCoord(row, column)));
-          //   if (check) {
-          //     hit(currentDiv);
-          //   } else {
-          //     miss(currentDiv);
-          //   }
-          //   turn = 'ai';
-          //   toggleClickableBoard();
-          //   setTimeout(() => {
-          //     const check = aiTurn();
-          //     if (check) {
-          //       hit(currentDiv);
-          //     } else {
-          //       miss(currentDiv);
-          //     }
-          //     console.log(`Wait! It's the AI's turn...`)
-          //     console.log(`AI attacks!`);
-          //     turn = 'player';
-          //     toggleClickableBoard();
-          //   }, 3000);
-          // } 
         }
         // console.log('AI ATTACK! : ', generateAIattack());
         // currentDiv.classList.toggle('active');
@@ -223,7 +215,7 @@ const generateLetters = function(rows) {
   return ALPHABET_LIST;
 };
 
-//returns div co-ordinate [letter, num]
+//returns div co-ordinate [letter, num], CONVERTS it to [a, 1]...
 const logCoord = function(row, column) {
   const LETTER_LIST = generateLetters(maxRows);
   const rowLetter = LETTER_LIST[row];
@@ -243,7 +235,7 @@ const generateKeyValPair = function(rows) {
   return result;
 };
 
-//turns tiles green in set mode
+//turns tiles green in set mode, sets occupied {} with 1s
 const setActive = function(div, arr) {
   console.log('set active!');
   div.classList.add('active');
@@ -292,6 +284,32 @@ const hit = function(div) {
 const miss = function(div) {
   div.classList.add('miss');
 }
+
+//====  GENERATE AI BOATS  ============================
+//recieves 'num' which will be the length of the boat, and returns an array with coord? [row, column]
+const randomHorizontalBoat = function(num, obj) {
+  const randomLetter = generateLetters(maxRows)[randomNumber(0, maxRows - 1)];
+  const startingColumn = randomNumber(1, maxRows);
+  
+  let boatLength = num;
+  let currentColumn = startingColumn + boatLength;
+  const result = [];
+  while (boatLength > 0) {
+    result.push([randomLetter, currentColumn]);
+    currentColumn--;
+    boatLength--;
+  }
+  // console.log(result);
+};
+
+const randomVerticalBoat = function(num, ob) {
+  
+};
+
+const randomBoat = function(num) {
+
+};
+//=====================================================
 
 //helper functions
 function randomNumber(min, max) { //inclusive

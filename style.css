@@ -87,3 +87,14 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+/* make the board unclickable */
+.board.unclickable {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* on miss... */
+.tile.miss {
+  background: peachpuff;
+}

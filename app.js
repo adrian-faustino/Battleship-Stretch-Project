@@ -4,7 +4,17 @@ const boardPlayer2_div = document.querySelector('.board.player2');
 const start_div = document.querySelector('.start-game');
 const gameStatus_span = document.getElementById('start-game-span');
 
+
 start_div.addEventListener('click', () => {
+  //sandbox below
+  // const divs = document.querySelectorAll('.board.player1 > .tile');
+  // if (divs[4] === undefined) {
+  // } else {
+  //   divs[4].style.background = 'white';
+  // }
+  // console.log(divs[0]);
+
+  //sandbox above
   if (!isOn && !setMode) {
     init();
     isOn = true;
@@ -20,7 +30,7 @@ start_div.addEventListener('click', () => {
 
 //infomration needed to draw board;=====//
 const tileSize = 35;                    //
-const maxRows = 15;                     //
+const maxRows = 3;                     //
 const maxColumns = maxRows;             //
 const PLAYER1_BOARD = [];               //
 const PLAYER2_BOARD = [];
@@ -32,24 +42,14 @@ let setMode = false;                    //
 let coordObject;                        //
 let currentCoord;                       //
 let occupied = {};                      //
-let turn = 'player';
+let turn = 'player';                    //
 //======================================//
 
 //opponent board========================// feed an array
-const AIships = [{
+const AIships = {
   a1: 1,
-  b1: 1,
-  c1: 1,
-  d1: 1
-}, {
   a2: 1,
-  b2: 1,
-  c2: 1
-}, {
-  a3: 1,
-  a4: 1,
-  a5: 1
-}];
+};
 
 //generate board
 const generateBoard = function(parent, arr) {
@@ -86,17 +86,95 @@ const addEventListeners = function(arr) {
         
         //game mode
         if (!setMode && isOn) {
-          // checkTile(currentDiv, logCoord(row, column)); // uncomment for ai -> player turn
-          const check = checkTile2(AIships, toKey(logCoord(row, column)));
-          if (check) {
+          if (checkTile2(AIships, toKey(logCoord(row, column)))) {
+            console.log('Player hit!');
             hit(currentDiv);
+          } else {
+            console.log('Player missed!');
+            miss(currentDiv);
           }
+
+          //ai turn
+          toggleClickableBoard();
+          setTimeout(() => {
+            if (generateAIattack()) {
+              console.log('AI hit!');
+              hitIndex(calcDivIndex([row, column]));
+            } else {
+              console.log('AI missed!');
+              miss(currentDiv);
+            }
+            toggleClickableBoard();
+          }, 2000);
+          
+          // if (turn === 'player') { //during player's turn
+          //   // checkTile(currentDiv, logCoord(row, column)); // uncomment for ai -> player turn
+          //   const check = checkTile2(AIships, toKey(logCoord(row, column)));
+          //   if (check) {
+          //     hit(currentDiv);
+          //   } else {
+          //     miss(currentDiv);
+          //   }
+          //   turn = 'ai';
+          //   toggleClickableBoard();
+          //   setTimeout(() => {
+          //     const check = aiTurn();
+          //     if (check) {
+          //       hit(currentDiv);
+          //     } else {
+          //       miss(currentDiv);
+          //     }
+          //     console.log(`Wait! It's the AI's turn...`)
+          //     console.log(`AI attacks!`);
+          //     turn = 'player';
+          //     toggleClickableBoard();
+          //   }, 3000);
+          // } 
         }
+        // console.log('AI ATTACK! : ', generateAIattack());
         // currentDiv.classList.toggle('active');
         // console.log(logCoord(row, column));
         currentCoord = logCoord(row, column);
       });
     }
+  }
+};
+
+//takes an array and returns a single number
+const calcDivIndex = function(arr) {
+  const row = arr[0];
+  const column = arr[1];
+
+  return (row + 1) * maxRows + (column + 1);
+};
+
+const hitIndex = function(num) {
+  const PLAYER_DIVS = document.querySelectorAll('.board.player1 > .tile');
+  const currentDiv = PLAYER_DIVS[num];
+  if (currentDiv !== undefined) {
+    console.log('recoloring...');
+    currentDiv.style.background = 'purple';
+  }
+};
+
+const aiTurn = function() {
+  const aiAttack = toKey(generateAIattack());
+  console.log(`AI attack: ` + aiAttack);
+  return checkTile2(occupied, aiAttack);
+};
+
+const generateAIattack = function() {
+  const LETTER_ARRAY = generateLetters(maxRows);
+  const randomIndex = randomNumber(0, LETTER_ARRAY.length - 1);
+  const result = [LETTER_ARRAY[randomIndex], randomNumber(0, maxRows)];
+  
+  return result;
+};
+
+const toggleClickableBoard = function() {
+  const board_divs = document.getElementsByClassName('board');
+  for (let div of board_divs) {
+    div.classList.toggle('unclickable');
   }
 };
 
@@ -178,15 +256,14 @@ const checkTile = function(div, arr) {
 
 
 //if HIT
+//recieves obj and key, checks if 1 or 0;
 const checkTile2 = function(occupiedObjArr, key) {
-  for (let obj of occupiedObjArr) {
-    if (obj[key] === 1) {
-      console.log(key)
-      console.log('HIT!!!');
-      return true;
-    }
+  if (occupiedObjArr[key] === 1) {
+    console.log('hit!');
+    return true;
+  } else {
+    return false;
   }
-  return false;
 };
 
 const hit = function(div) {
@@ -194,6 +271,9 @@ const hit = function(div) {
   div.classList.add('hit');
 };
 
+const miss = function(div) {
+  div.classList.add('miss');
+}
 
 //helper functions
 function randomNumber(min, max) { //inclusive

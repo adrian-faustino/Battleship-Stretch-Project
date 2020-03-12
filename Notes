@@ -47,3 +47,8 @@ addListener(listenerStr, callback)
 
 removeListener(varName)
 -take the var name and remove it. (TEST THIS)
+
+
+KNOWN PROBLEMS:
+-ai keeps attacking same box
+-ai hitting even on non active tile

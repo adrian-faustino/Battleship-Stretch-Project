@@ -97,12 +97,12 @@ const addEventListeners = function(arr) {
           //ai turn
           toggleClickableBoard();
           setTimeout(() => {
-            if (generateAIattack()) {
+            if (aiTurn()) {
               console.log('AI hit!');
               hitIndex(calcDivIndex([row, column]));
             } else {
               console.log('AI missed!');
-              miss(currentDiv);
+              missIndex(calcDivIndex([row, column]));
             }
             toggleClickableBoard();
           }, 2000);
@@ -145,17 +145,26 @@ const calcDivIndex = function(arr) {
   const row = arr[0];
   const column = arr[1];
 
-  return (row + 1) * maxRows + (column + 1);
+  return (row * maxRows) + column;
 };
 
 const hitIndex = function(num) {
   const PLAYER_DIVS = document.querySelectorAll('.board.player1 > .tile');
   const currentDiv = PLAYER_DIVS[num];
   if (currentDiv !== undefined) {
-    console.log('recoloring...');
-    currentDiv.style.background = 'purple';
+    console.log('recoloring hit...');
+    currentDiv.classList.add('hit');
   }
 };
+
+const missIndex = function(num) {
+  const PLAYER_DIVS = document.querySelectorAll('.board.player1 > .tile');
+  const currentDiv = PLAYER_DIVS[num];
+  if (currentDiv !== undefined) {
+    console.log('recoloring miss...');
+    currentDiv.classList.add('miss');
+  }
+}
 
 const aiTurn = function() {
   const aiAttack = toKey(generateAIattack());
@@ -259,7 +268,6 @@ const checkTile = function(div, arr) {
 //recieves obj and key, checks if 1 or 0;
 const checkTile2 = function(occupiedObjArr, key) {
   if (occupiedObjArr[key] === 1) {
-    console.log('hit!');
     return true;
   } else {
     return false;

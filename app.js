@@ -289,21 +289,32 @@ const miss = function(div) {
 //recieves 'num' which will be the length of the boat, and returns an array with coord? [row, column]
 const randomHorizontalBoat = function(num, obj) {
   const randomLetter = generateLetters(maxRows)[randomNumber(0, maxRows - 1)];
-  const startingColumn = randomNumber(1, maxRows);
+  let currentColumn = randomNumber(1, maxRows);
   
+  if (currentColumn < maxRows / 2) {
+    currentColumn += num;
+  }
+
   let boatLength = num;
-  let currentColumn = startingColumn + boatLength;
   const result = [];
   while (boatLength > 0) {
     result.push([randomLetter, currentColumn]);
     currentColumn--;
     boatLength--;
   }
-  // console.log(result);
+  console.log(result);
 };
 
-const randomVerticalBoat = function(num, ob) {
-  
+const randomVerticalBoat = function(num, obj) {
+  const baseNumber = randomNumber(1, maxRows);
+  const startingLetter = generateLetters(maxRows)[randomNumber(0, maxRows -1)];
+
+  const result = [];
+  let boatLength = num;
+  while (boatLength > 0 ) {
+
+    boatLength--;
+  }
 };
 
 const randomBoat = function(num) {

@@ -25,7 +25,7 @@ start_div.addEventListener('click', () => {
 
 //infomration needed to draw board;=====//
 const tileSize = 35;                    //
-const maxRows = 3;                     //
+const maxRows = 10;                     //
 const maxColumns = maxRows;             //
 const PLAYER1_BOARD = [];               //
 const PLAYER2_BOARD = [];
@@ -142,6 +142,7 @@ const hitIndex = function(num) {
   const currentDiv = PLAYER_DIVS[num];
   if (currentDiv !== undefined) {
     console.log('recoloring hit...');
+    currentDiv.classList.remove('hidden');
     currentDiv.classList.add('hit');
   }
 };

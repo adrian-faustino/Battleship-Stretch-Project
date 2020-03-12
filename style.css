@@ -43,25 +43,6 @@
   background: grey;
   opacity: 0.6;
 }
-.tile.hit {
-  background: red;
-}
-.hit::after,
-.hit::before {
-  position: absolute;
-  bottom: -23%;
-  left: 45%;
-  content: '';
-  height: 32px;
-  width: 3px;
-  background-color: darkred;
-}
-.hit::before {
-  transform: rotate(-45deg);
-}
-.hit::after {
-  transform: rotate(45deg);
-}
 
 /* start-game button */
 .start-game {
@@ -97,4 +78,25 @@
 /* on miss... */
 .tile.miss {
   background: peachpuff;
+}
+
+/* on hit */
+.tile.hit {
+  background: red;
+}
+.hit::after,
+.hit::before {
+  position: absolute;
+  left: 45%;
+  transform-origin: center;
+  content: '';
+  height: 32px;
+  width: 3px;
+  background-color: darkred;
+}
+.hit::before {
+  transform: rotate(-45deg);
+}
+.hit::after {
+  transform: rotate(45deg);
 }

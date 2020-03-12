@@ -7,12 +7,7 @@ const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   //sandbox below
-  // const divs = document.querySelectorAll('.board.player1 > .tile');
-  // if (divs[4] === undefined) {
-  // } else {
-  //   divs[4].style.background = 'white';
-  // }
-  // console.log(divs[0]);
+  missIndex(9);
 
   //sandbox above
   if (!isOn && !setMode) {
@@ -97,13 +92,7 @@ const addEventListeners = function(arr) {
           //ai turn
           toggleClickableBoard();
           setTimeout(() => {
-            if (aiTurn()) {
-              console.log('AI hit!');
-              hitIndex(calcDivIndex([row, column]));
-            } else {
-              console.log('AI missed!');
-              missIndex(calcDivIndex([row, column]));
-            }
+            aiTurn();
             toggleClickableBoard();
           }, 2000);
           
@@ -167,15 +156,35 @@ const missIndex = function(num) {
 }
 
 const aiTurn = function() {
-  const aiAttack = toKey(generateAIattack());
+  const newAttack = generateAIattack();
+  const aiAttack = newAttack.coord.join('');
   console.log(`AI attack: ` + aiAttack);
-  return checkTile2(occupied, aiAttack);
+  
+  const currentIndex = calcDivIndex([newAttack.row, newAttack.column]);
+  if (checkTile2(occupied, aiAttack)) {
+    console.log('AI hit!');
+    hitIndex(currentIndex);
+  } else {
+    console.log('AI missed!');
+    missIndex(currentIndex);
+  }
 };
 
+//returns {}
 const generateAIattack = function() {
+  const result = {
+    row: 0 ,
+    column: 0,
+    coord: []
+  };
   const LETTER_ARRAY = generateLetters(maxRows);
-  const randomIndex = randomNumber(0, LETTER_ARRAY.length - 1);
-  const result = [LETTER_ARRAY[randomIndex], randomNumber(0, maxRows)];
+  const randomRow = randomNumber(0, LETTER_ARRAY.length - 1);
+  const randomLetter = LETTER_ARRAY[randomRow];
+  const randomColumn = randomNumber(0, LETTER_ARRAY.length - 1);
+
+  result.row = randomRow;
+  result.column = randomColumn;
+  result.coord = [randomLetter, randomColumn + 1]; // +1 ??
   
   return result;
 };

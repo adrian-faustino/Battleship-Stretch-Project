@@ -7,9 +7,7 @@ const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   //sandbox below
-  randomVerticalBoat(5, AIships);
-  randomHorizontalBoat(5, AIships);
-  console.log(AIships);
+  console.log(randomHorizontalBoat(5, AIships));
 
   //sandbox above
   if (!isOn && !setMode) {
@@ -279,13 +277,21 @@ const randomHorizontalBoat = function(num, obj) {
     currentColumn += num;
   }
 
+  const result = [];
+  const KEYS = Object.keys(obj);
   let boatLength = num;
   while (boatLength > 0) {
-    const coord = `${[randomLetter + currentColumn]}`
-    obj[coord] = 1;
-    currentColumn--;
-    boatLength--;
+    const coord = randomLetter + currentColumn;
+    if (KEYS.includes(coord)) {
+      result = randomHorizontalBoat(num, obj);
+    } else {
+      result.push(coord);
+      currentColumn--;
+      boatLength--;
+    }
   }
+  
+  return result;
 };
 
 const randomVerticalBoat = function(num, obj) {

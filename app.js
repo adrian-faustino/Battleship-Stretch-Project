@@ -9,7 +9,7 @@ start_div.addEventListener('click', () => {
   //sandbox below
 
   //sandbox above
-  
+
   if (!isOn && !setMode) {
     init();
     isOn = true;
@@ -93,7 +93,7 @@ const addEventListeners = function(arr) {
           setTimeout(() => {
             aiTurn();
             toggleClickableBoard();
-          }, 2000);
+          }, 1000);
         }
         // console.log('AI ATTACK! : ', generateAIattack());
         // currentDiv.classList.toggle('active');

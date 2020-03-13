@@ -77,7 +77,13 @@
 
 /* on miss... */
 .tile.miss {
-  background: peachpuff;
+  background: aquamarine;
+  animation: water 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transition: 0.5s;
+
+  pointer-events: none;
 }
 
 /* on hit */
@@ -99,4 +105,16 @@
 }
 .hit::after {
   transform: rotate(45deg);
+}
+
+@keyframes water {
+  0% {
+    background: rgba(0, 102, 255, 0.911);
+  }
+  40% {
+    background: rgba(57, 103, 255, 0.582);
+  }
+  100% {
+    background: rgba(21, 108, 189, 0.801);
+  }
 }

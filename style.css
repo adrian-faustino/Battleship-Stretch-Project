@@ -25,6 +25,7 @@
   margin-top: 60px;
   margin: 0 auto;
   box-shadow: 0 0 5px black;
+  cursor: crosshair;
 }
 .tile {
   --tileSize: 0;
@@ -38,8 +39,24 @@
   background: pink;
 }
 .tile.active {
+  z-index: 1;
   background: grey;
+  border: none;
 }
+.tile.active.hidden::before,
+.tile.active.hidden::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  height: 2px;
+  width: 10px;
+  background-color: white;
+}
+.tile.active.hidden::before {
+  top: 30%;
+}
+
 .tile.active.hidden {
   background: grey;
   opacity: 0.6;
@@ -76,6 +93,10 @@
   opacity: 0.4;
 }
 
+.board.game-mode {
+  pointer-events: none;
+}
+
 /* on miss... */
 .tile.miss {
   background: aquamarine;
@@ -102,7 +123,7 @@
   height: 32px;
   width: 3px;
   background-color: darkred;
-  animation: fade 2s;
+  animation: fade 0.4s;
   animation-iteration-count: infinite;
   animation-direction: alternate-reverse;
 }
@@ -111,6 +132,36 @@
 }
 .hit::after {
   transform: rotate(45deg);
+}
+
+#ai-span {
+  position: fixed;
+  top: 40px;
+  left: 392px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: auto;
+  padding: 0 10px;
+  border-radius: 5px;
+  background: rgba(241, 250, 241, 0.644);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#player-span {
+  position: fixed;
+  top: 40px;
+  height: 30px;
+  right: 362px;
+  width: auto;
+  display: flex;
+  padding: 0 10px;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(241, 250, 241, 0.644);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 @keyframes water {
@@ -130,12 +181,13 @@
 
 @keyframes fade {
   0% {
-    opacity: 0;
-  }
-  40% {
     opacity: 0.8;
+    height: 28px;
+    bottom: 2%;
   }
   100% {
     opacity: 1;
+    height: 32px;
+    bottom: 3%;
   }
 }

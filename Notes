@@ -55,8 +55,9 @@ KNOWN PROBLEMS:
 -ai 'hit' but didn't change any tiles? [SOLVED]
 -ai copies  my move (because we are basing hitIndex based on current ile) THHE ISSUE IS THE INDEX FOR RECOLORING IS WRONG [SOLVED]
 
--player can attack on own board during game mode
+-player can attack on own board during game mode [SOLVED]
 
+-AI move over 100 causes infinite recursion loop since there are no more empty tiles
 
 
 KNOWN WORKS:

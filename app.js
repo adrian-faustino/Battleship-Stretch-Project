@@ -16,9 +16,11 @@ start_div.addEventListener('click', () => {
     setMode = true;
     gameStatus_span.innerHTML = 'Set Ships';
   } else if (isOn && setMode) {
+    toggleClickableBoard('player1');
     setMode = false;
     gameStatus_span.innerHTML = 'Start!';
     hideBoard();
+    generateBoard(boardPlayer2_div, PLAYER2_BOARD);
     addEventListeners(PLAYER2_BOARD);
     generateAIShips();
     console.log(AIships);
@@ -44,6 +46,7 @@ let turn = 'player';                    //
 
 //opponent board========================// feed an array
 const AIships = {};
+const AIattackList = [];
 
 //generate board
 const generateBoard = function(parent, arr) {
@@ -146,6 +149,7 @@ const aiTurn = function() {
   }
 };
 
+// ===== AI attacks ===== //
 //returns {}
 const generateAIattack = function() {
   const result = {
@@ -158,6 +162,14 @@ const generateAIattack = function() {
   const randomLetter = LETTER_ARRAY[randomRow];
   const randomColumn = randomNumber(0, LETTER_ARRAY.length - 1);
 
+  if (AIattackList.includes(`${randomLetter + (randomColumn + 1)}`)) {
+    console.log('re-doing attack coord...')
+    return generateAIattack();
+  } else {
+    AIattackList.push(randomLetter + (randomColumn + 1));
+    console.log(AIattackList.length);
+  }
+
   result.row = randomRow;
   result.column = randomColumn;
   result.coord = [randomLetter, randomColumn + 1]; // +1 ??
@@ -165,9 +177,20 @@ const generateAIattack = function() {
   return result;
 };
 
-const toggleClickableBoard = function() {
-  const board_divs = document.getElementsByClassName('board');
+const toggleClickableBoard = function(player) {
+  let board_divs;
+  if (player) { 
+    board_divs = document.querySelectorAll(`.board.${player}`);
+    for (let div of board_divs) { //refactor this line. target the boards ? or divs?
+      div.classList.add('game-mode');
+    }
+    return;
+  } else {
+    board_divs = document.getElementsByClassName('board');
+  }
   for (let div of board_divs) {
+    // div.classList.remove('unclickable');
+    // div.classList.add('unclickable');
     div.classList.toggle('unclickable');
   }
 };
@@ -182,7 +205,6 @@ const hideBoard = function() {
 
 //function returns obj array with co-ordinates
 const resetBoard = function() {
-
 };
 
 //returns alphabet array based on row
@@ -228,7 +250,6 @@ const setActive = function(div, arr) {
 
 const init = function() {
   generateBoard(boardPlayer1_div, PLAYER1_BOARD);
-  generateBoard(boardPlayer2_div, PLAYER2_BOARD);
   addEventListeners(PLAYER1_BOARD);
   // addEventListeners(PLAYER2_BOARD);
   // coordObject = generateKeyValPair(maxRows);

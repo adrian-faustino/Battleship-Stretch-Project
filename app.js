@@ -7,9 +7,9 @@ const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   //sandbox below
-  console.log(randomVerticalBoat(5, AIships));
 
   //sandbox above
+  
   if (!isOn && !setMode) {
     init();
     isOn = true;
@@ -20,7 +20,8 @@ start_div.addEventListener('click', () => {
     gameStatus_span.innerHTML = 'Start!';
     hideBoard();
     addEventListeners(PLAYER2_BOARD);
-    
+    generateAIShips();
+    console.log(AIships);
   }
 });
 
@@ -319,9 +320,29 @@ const randomVerticalBoat = function(num, obj) {
   return result;
 };
 
-const randomBoat = function(num) {
+const generateAIShips = function() {
+  const carrier = randomHorizontalBoat(5, AIships);
+  updateAIships(AIships, carrier);
 
+  const battleship = randomVerticalBoat(4, AIships);
+  updateAIships(AIships, battleship);
+
+  const cruiser = randomHorizontalBoat(3, AIships);
+  updateAIships(AIships, cruiser);
+
+  const submarine = randomVerticalBoat(3, AIships);
+  updateAIships(AIships, submarine);
+
+  const destroyer = randomVerticalBoat(2, AIships);
+  updateAIships(AIships, destroyer);
 };
+
+const updateAIships = function(obj, arr) {
+  for (let key of arr) {
+    obj[key] = 1;
+  }
+}
+
 //=====================================================
 
 //helper functions

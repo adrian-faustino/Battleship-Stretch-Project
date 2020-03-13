@@ -7,7 +7,9 @@ const gameStatus_span = document.getElementById('start-game-span');
 
 start_div.addEventListener('click', () => {
   //sandbox below
-  randomVerticalBoat(5);
+  randomVerticalBoat(5, AIships);
+  randomHorizontalBoat(5, AIships);
+  console.log(AIships);
 
   //sandbox above
   if (!isOn && !setMode) {
@@ -42,25 +44,7 @@ let turn = 'player';                    //
 //======================================//
 
 //opponent board========================// feed an array
-const AIships = {
-  a1: 1,
-  a2: 1,
-  a3: 1,
-  a4: 1,
-  e5: 1,
-  f5: 1,
-  g5: 1,
-  h5: 1,
-  d1: 1,
-  d2: 1,
-  d3: 1,
-  d4: 1,
-  b8: 1,
-  c8: 1,
-  d8: 1,
-  e8: 1,
-  f8: 1
-};
+const AIships = {};
 
 //generate board
 const generateBoard = function(parent, arr) {
@@ -296,13 +280,12 @@ const randomHorizontalBoat = function(num, obj) {
   }
 
   let boatLength = num;
-  const result = [];
   while (boatLength > 0) {
-    result.push([randomLetter, currentColumn]);
+    const coord = `${[randomLetter + currentColumn]}`
+    obj[coord] = 1;
     currentColumn--;
     boatLength--;
   }
-  console.log(result);
 };
 
 const randomVerticalBoat = function(num, obj) {
@@ -314,14 +297,13 @@ const randomVerticalBoat = function(num, obj) {
     currentLetterIndex -= num;
   }
 
-  const result = [];
   let boatLength = num;
   while (boatLength > 0 ) {
-    result.push([LETTER_LIST[currentLetterIndex], baseColumn]);
+    const coord = `${[LETTER_LIST[currentLetterIndex] + baseColumn]}`;
+    obj[coord] = 1;
     currentLetterIndex++;
     boatLength--;
   }
-  console.log(result);
 };
 
 const randomBoat = function(num) {

@@ -2,7 +2,8 @@
 const boardPlayer1_div = document.querySelector('.board.player1');
 const boardPlayer2_div = document.querySelector('.board.player2');
 const start_div = document.querySelector('.start-game');
-const gameStatus_span = document.getElementById('start-game-span');
+const gameButton_span = document.getElementById('start-game-span');
+const gameInfo_span = document.getElementById('game-info');
 
 
 start_div.addEventListener('click', () => {
@@ -14,11 +15,11 @@ start_div.addEventListener('click', () => {
     init();
     isOn = true;
     setMode = true;
-    gameStatus_span.innerHTML = 'Set Ships';
+    gameButton_span.innerHTML = 'Set Ships';
   } else if (isOn && setMode) {
     toggleClickableBoard('player1');
     setMode = false;
-    gameStatus_span.innerHTML = 'Start!';
+    gameButton_span.innerHTML = 'Start!';
     hideBoard();
     generateBoard(boardPlayer2_div, PLAYER2_BOARD);
     addEventListeners(PLAYER2_BOARD);
@@ -27,7 +28,7 @@ start_div.addEventListener('click', () => {
   }
 });
 
-//infomration needed to draw board;=====//
+// information needed to draw board=====//
 const tileSize = 35;                    //
 const maxRows = 10;                     //
 const maxColumns = maxRows;             //
@@ -35,7 +36,7 @@ const PLAYER1_BOARD = [];               //
 const PLAYER2_BOARD = [];               //
 //======================================//
 
-//game state============================//
+// game state===========================//
 let isOn = false;                       //
 let setMode = false;                    //
 let coordObject;                        //
@@ -44,9 +45,12 @@ let occupied = {};                      //
 let turn = 'player';                    //
 //======================================//
 
-//opponent board========================// feed an array
-const AIships = {};
-const AIattackList = [];
+// AI const ============================//
+const AIships = {};                     //
+const AIattackList = [];                //
+let AIMoveCount = 0;                    //
+let AITilesRemaining = 17;              //
+// =======================================
 
 //generate board
 const generateBoard = function(parent, arr) {
@@ -152,6 +156,10 @@ const aiTurn = function() {
 // ===== AI attacks ===== //
 //returns {}
 const generateAIattack = function() {
+  if (AIMoveCount === 100) {
+    return console.log('No more tiles left to play!');
+  }
+
   const result = {
     row: 0 ,
     column: 0,
@@ -173,7 +181,7 @@ const generateAIattack = function() {
   result.row = randomRow;
   result.column = randomColumn;
   result.coord = [randomLetter, randomColumn + 1]; // +1 ??
-  
+  AIMoveCount++;
   return result;
 };
 
@@ -205,7 +213,16 @@ const hideBoard = function() {
 
 //function returns obj array with co-ordinates
 const resetBoard = function() {
+  console.log('Game over!'); //implement later
 };
+
+const update = function() {
+  AIMoveCount--;
+  if (AIMoveCount === 0) {
+    resetBoard();
+  }
+  gameInfo_span.innerHTML = `AI tiles remaining: ${AITilesRemaining}`;
+}
 
 //returns alphabet array based on row
 const generateLetters = function(rows) {

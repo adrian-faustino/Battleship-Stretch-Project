@@ -57,7 +57,7 @@ KNOWN PROBLEMS:
 
 -player can attack on own board during game mode [SOLVED]
 
--AI move over 100 causes infinite recursion loop since there are no more empty tiles
+-AI move over 100 causes infinite recursion loop since there are no more empty tiles [SOLVED]
 
 
 KNOWN WORKS:

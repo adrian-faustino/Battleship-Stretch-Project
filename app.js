@@ -278,13 +278,13 @@ const randomHorizontalBoat = function(num, obj) {
     currentColumn += num;
   }
 
-  const result = [];
+  let result = [];
   const KEYS = Object.keys(obj);
   let boatLength = num;
   while (boatLength > 0) {
-    const coord = randomLetter + currentColumn;
+    let coord = randomLetter + currentColumn;
     if (KEYS.includes(coord)) {
-      result = randomHorizontalBoat(num, obj);
+      return result = randomHorizontalBoat(num, obj);
     } else {
       result.push(coord);
       currentColumn--;
@@ -304,13 +304,13 @@ const randomVerticalBoat = function(num, obj) {
     currentLetterIndex -= num;
   }
 
-  const result = [];
+  let result = [];
   const KEYS = Object.keys(obj);
   let boatLength = num;
   while (boatLength > 0 ) {
-    const coord = LETTER_LIST[currentLetterIndex] + baseColumn;
+    let coord = LETTER_LIST[currentLetterIndex] + baseColumn;
     if (KEYS.includes(coord)) {
-      result = randomVerticalBoat(num, obj);
+      return result = randomVerticalBoat(num, obj);
     } else {
       result.push(coord);
       currentLetterIndex++;
@@ -321,19 +321,19 @@ const randomVerticalBoat = function(num, obj) {
 };
 
 const generateAIShips = function() {
-  const carrier = randomHorizontalBoat(5, AIships);
+  let carrier = randomHorizontalBoat(5, AIships);
   updateAIships(AIships, carrier);
 
-  const battleship = randomVerticalBoat(4, AIships);
+  let battleship = randomVerticalBoat(4, AIships);
   updateAIships(AIships, battleship);
 
-  const cruiser = randomHorizontalBoat(3, AIships);
+  let cruiser = randomHorizontalBoat(3, AIships);
   updateAIships(AIships, cruiser);
 
-  const submarine = randomVerticalBoat(3, AIships);
+  let submarine = randomVerticalBoat(3, AIships);
   updateAIships(AIships, submarine);
 
-  const destroyer = randomVerticalBoat(2, AIships);
+  let destroyer = randomVerticalBoat(2, AIships);
   updateAIships(AIships, destroyer);
 };
 

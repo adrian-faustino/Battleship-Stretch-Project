@@ -59,6 +59,8 @@ KNOWN PROBLEMS:
 
 -AI move over 100 causes infinite recursion loop since there are no more empty tiles [SOLVED]
 
+-player can attack an already hit tile [SOLVED]
+
 
 KNOWN WORKS:
 -how my occupied array is made during set mode.

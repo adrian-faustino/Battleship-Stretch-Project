@@ -15,16 +15,22 @@ start_div.addEventListener('click', () => {
     init();
     isOn = true;
     setMode = true;
-    gameButton_span.innerHTML = 'Set Ships';
+    gameButton_span.innerHTML = 'Finished';
+    gameInfo_span.innerHTML = 'Click on the board to set your ships!';
   } else if (isOn && setMode) {
     toggleClickableBoard('player1');
     setMode = false;
-    gameButton_span.innerHTML = 'Start!';
+    gameButton_span.innerHTML = 'Restart';
     hideBoard();
     generateBoard(boardPlayer2_div, PLAYER2_BOARD);
     addEventListeners(PLAYER2_BOARD);
     generateAIShips();
+    update();
     console.log(AIships);
+  } else {
+    resetBoard();
+    start_div.innerHTML = 'New game';
+    gameInfo_span.innerHTML = 'Game Restarted!';
   }
 });
 
@@ -49,7 +55,7 @@ let turn = 'player';                    //
 const AIships = {};                     //
 const AIattackList = [];                //
 let AIMoveCount = 0;                    //
-let AITilesRemaining = 17;              //
+let AITilesRemaining = 17;              //  --> remove hard coded 17 later
 // =======================================
 
 //generate board
@@ -90,6 +96,7 @@ const addEventListeners = function(arr) {
           if (checkTile2(AIships, toKey(logCoord(row, column)))) {
             console.log('Player hit!');
             hit(currentDiv);
+            update();
           } else {
             console.log('Player missed!');
             miss(currentDiv);
@@ -213,13 +220,17 @@ const hideBoard = function() {
 
 //function returns obj array with co-ordinates
 const resetBoard = function() {
-  console.log('Game over!'); //implement later
+  boardPlayer1_div.innerHTML = '';
+  boardPlayer2_div.innerHTML = '';
+  init();
 };
 
 const update = function() {
   AIMoveCount--;
-  if (AIMoveCount === 0) {
+  if (AITilesRemaining === 0) {
     resetBoard();
+    // toggleClickableBoard();
+    gameInfo_span.textContent = `Congratulations! You sunk all of the enemy's ships.`;
   }
   gameInfo_span.innerHTML = `AI tiles remaining: ${AITilesRemaining}`;
 }
@@ -268,8 +279,6 @@ const setActive = function(div, arr) {
 const init = function() {
   generateBoard(boardPlayer1_div, PLAYER1_BOARD);
   addEventListeners(PLAYER1_BOARD);
-  // addEventListeners(PLAYER2_BOARD);
-  // coordObject = generateKeyValPair(maxRows);
 };
 
 const toKey = function(arr) {
@@ -300,6 +309,7 @@ const checkTile2 = function(occupiedObjArr, key) {
 const hit = function(div) {
   div.classList.remove('hidden');
   div.classList.add('hit');
+  AITilesRemaining--;
 };
 
 const miss = function(div) {
